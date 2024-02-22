@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,26 +28,26 @@ import java.util.Objects;
 public class ImageController {
 
     private final ImageService imageService;
+    private final ImageMapper imageMapper;
     @PostMapping
     public ResponseEntity save(@RequestParam("file") MultipartFile file,
                                @RequestParam("name") String name,
                                @RequestParam("tags") List<String> tags ) throws IOException {
         log.info("Imagem recebida: name: {}, size: {} ", file.getOriginalFilename(), file.getSize());
-        log.info("Nome definido para a imagem: {}", name);
-        log.info("Tags: {}", tags);
-        log.info("Media Type: {}", MediaType.valueOf(Objects.requireNonNull(file.getContentType())));
 
+        Image image = imageMapper.mapToImage(file, name, tags);
 
-        Image image = Image.builder()
-                .name(name)
-                .tags(String.join(",", tags)) // ["tag1","tag2"] salvo no banco tag1 tag2
-                .size(file.getSize())
-                .extension(ImageExtension.valueOf(MediaType.valueOf(Objects.requireNonNull(file.getContentType()))))
-                .file(file.getBytes())
-                .build();
+        Image savedImage = imageService.save(image);
 
-        imageService.save(image);
+        URI imageUri = buildImageURL(savedImage);
 
-      return ResponseEntity.ok().build();
+        return ResponseEntity.created(imageUri).build();
+    }
+
+    private URI buildImageURL(Image image){
+     String imagePath = "/" + image.getId();
+        return ServletUriComponentsBuilder.
+                fromCurrentRequest().
+                path(imagePath).build().toUri();
     }
 }
