@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@Builder
 public class Image {
 
     @Id
@@ -37,5 +38,5 @@ public class Image {
     @Column
     @Lob
     private byte[] file;
-    
+
 }
