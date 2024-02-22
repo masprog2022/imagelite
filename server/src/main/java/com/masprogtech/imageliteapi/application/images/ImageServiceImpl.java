@@ -7,6 +7,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
@@ -17,5 +19,9 @@ public class ImageServiceImpl implements ImageService {
     @Transactional
     public Image save(Image image) {
         return imageRepository.save(image);
+    }
+    @Override
+    public Optional<Image> geById(String id) {
+        return imageRepository.findById(id);
     }
 }
