@@ -1,5 +1,7 @@
 package com.masprogtech.imageliteapi.application.images;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 
@@ -12,5 +14,6 @@ public class ImageDTO {
     private String name;
     private String extension;
     private Long size;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate uploadData;
 }
