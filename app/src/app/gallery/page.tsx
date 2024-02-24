@@ -1,5 +1,6 @@
 "use client";
 import { ImageCard, Template } from "@/components";
+import { Image } from "@/resources/image/image.resource";
 import { useImageService } from "@/resources/image/image.service";
 import { useState } from "react";
 
@@ -13,14 +14,27 @@ export default function GalleryPage() {
     console.table(result);
   }
 
+  function renderImageCard(image: Image) {
+    return (
+      <ImageCard
+        name={image.name}
+        src={image.url}
+        size={image.size}
+        dataUpload={image.uploadData}
+      />
+    );
+  }
+
+  function renderImageCards() {
+    return images.map(renderImageCard);
+  }
+
   return (
     <Template>
       <button className="bg-gray-500" onClick={searchImages}>
         OK
       </button>
-      <section className="grid grid-cols-4 gap-8">
-        <ImageCard name="Montanha" size="10MB" dataUpload="23/02/2024" src="" />
-      </section>
+      <section className="grid grid-cols-4 gap-8">{renderImageCards()}</section>
     </Template>
   );
 }
