@@ -9,12 +9,14 @@ export default function GalleryPage() {
   const [images, setImages] = useState<Image[]>([]);
   const [query, setQuery] = useState<string>("");
   const [extension, setExtension] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   async function searchImages() {
-    console.log("valor digitado: ", query);
-    console.log("valor selecionado: ", extension);
+    setLoading(true);
+
     const result = await userService.find(query, extension);
     setImages(result);
+    setLoading(false);
   }
 
   function renderImageCard(image: Image) {
@@ -35,7 +37,7 @@ export default function GalleryPage() {
   }
 
   return (
-    <Template>
+    <Template loading={loading}>
       <section className="flex flex-col items-center justify-center my-5">
         <div className="flex space-x-4">
           <input
@@ -54,11 +56,11 @@ export default function GalleryPage() {
           </select>
           <button
             onClick={searchImages}
-            className="px-4 py-2 text-white bg-blue-500 rounded-lg"
+            className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-300"
           >
             Search
           </button>
-          <button className="px-4 py-2 text-white bg-yellow-500 rounded-lg">
+          <button className="px-4 py-2 text-white bg-yellow-500 rounded-lg hover:bg-yellow-300">
             Add New
           </button>
         </div>
