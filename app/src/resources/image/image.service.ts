@@ -3,8 +3,9 @@ import { Image } from "./image.resource";
 class ImageService {
   baseURL: string = "http://localhost:8081/v1/images";
 
-  async findAll(): Promise<Image[]> {
-    const response = await fetch(this.baseURL);
+  async find(query: string = "", extension: string = ""): Promise<Image[]> {
+    const url = `${this.baseURL}?query=${query}&extension=${extension}`;
+    const response = await fetch(url);
     return await response.json();
   }
 }
