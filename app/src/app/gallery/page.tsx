@@ -7,16 +7,20 @@ import { useState } from "react";
 export default function GalleryPage() {
   const userService = useImageService();
   const [images, setImages] = useState<Image[]>([]);
+  const [query, setQuery] = useState<string>("");
+  const [extension, setExtension] = useState<string>("");
 
   async function searchImages() {
-    const result = await userService.findAll();
+    console.log("valor digitado: ", query);
+    console.log("valor selecionado: ", extension);
+    const result = await userService.find(query, extension);
     setImages(result);
-    console.table(result);
   }
 
   function renderImageCard(image: Image) {
     return (
       <ImageCard
+        key={image.url}
         name={image.name}
         src={image.url}
         size={image.size}
@@ -34,11 +38,18 @@ export default function GalleryPage() {
       <section className="flex flex-col items-center justify-center my-5">
         <div className="flex space-x-4">
           <input
+            onChange={(event) => setQuery(event.target.value)}
             type="text"
             className="px-3 py-2 text-gray-900 border rounded-lg"
           />
-          <select className="px-4 py-2 text-gray-900 border rounded-lg">
-            <option>All formats</option>
+          <select
+            onChange={(event) => setExtension(event.target.value)}
+            className="px-4 py-2 text-gray-900 border rounded-lg"
+          >
+            <option value="">All formats</option>
+            <option value="PNG">PNG</option>
+            <option value="GIF">GIF</option>
+            <option value="JPEG">JPEG</option>
           </select>
           <button
             onClick={searchImages}
