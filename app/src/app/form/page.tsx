@@ -1,3 +1,9 @@
+import { Template } from "@/components";
+
 export default function FormPage() {
-  return <div>FormPage</div>;
+  return(
+    <Template>
+      <h1>Hello world!</h1>
+    </Template>
+  )
 }
