@@ -2,6 +2,7 @@
 import { ImageCard, Template } from "@/components";
 import { Image } from "@/resources/image/image.resource";
 import { useImageService } from "@/resources/image/image.service";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function GalleryPage() {
@@ -60,9 +61,11 @@ export default function GalleryPage() {
           >
             Search
           </button>
-          <button className="px-4 py-2 text-white bg-yellow-500 rounded-lg hover:bg-yellow-300">
-            Add New
-          </button>
+          <Link href="/form">
+            <button className="px-4 py-2 text-white bg-yellow-500 rounded-lg hover:bg-yellow-300">
+              Add New
+            </button>
+          </Link>
         </div>
       </section>
       <section className="grid grid-cols-4 gap-8">{renderImageCards()}</section>
