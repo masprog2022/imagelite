@@ -10,7 +10,7 @@ interface TemplateProps {
 
 export const Template: React.FC<TemplateProps> = ({
   children,
-  loading,
+  loading = false,
 }: TemplateProps) => {
   return (
     <>
@@ -18,7 +18,7 @@ export const Template: React.FC<TemplateProps> = ({
       <div
         className={`${
           loading ? "animate-pulse" : ""
-        } px-4 mx-auto mt-8 animacontainer `}
+        } container px-4 mx-auto mt-8`}
       >
         <RenderIf condition={loading}>
           <div className="text-center">
