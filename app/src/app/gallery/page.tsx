@@ -1,5 +1,5 @@
 "use client";
-import { ImageCard, Template } from "@/components";
+import { Button, ImageCard, Template } from "@/components";
 import { Image } from "@/resources/image/image.resource";
 import { useImageService } from "@/resources/image/image.service";
 import Link from "next/link";
@@ -55,16 +55,14 @@ export default function GalleryPage() {
             <option value="GIF">GIF</option>
             <option value="JPEG">JPEG</option>
           </select>
-          <button
+          <Button
+            style="bg-blue-500 hover:bg-blue-300"
+            label="Search"
             onClick={searchImages}
-            className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-300"
-          >
-            Search
-          </button>
+          />
+
           <Link href="/form">
-            <button className="px-4 py-2 text-white bg-yellow-500 rounded-lg hover:bg-yellow-300">
-              Add New
-            </button>
+            <Button style="bg-yellow-500 hover:bg-yellow-300" label="Add New" />
           </Link>
         </div>
       </section>
