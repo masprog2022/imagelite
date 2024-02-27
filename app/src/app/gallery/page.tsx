@@ -1,5 +1,5 @@
 "use client";
-import { Button, ImageCard, Template } from "@/components";
+import { Button, ImageCard, InputText, Template } from "@/components";
 import { Image } from "@/resources/image/image.resource";
 import { useImageService } from "@/resources/image/image.service";
 import Link from "next/link";
@@ -41,10 +41,9 @@ export default function GalleryPage() {
     <Template loading={loading}>
       <section className="flex flex-col items-center justify-center my-5">
         <div className="flex space-x-4">
-          <input
+          <InputText
+            placeholder="Type Name or Tags"
             onChange={(event) => setQuery(event.target.value)}
-            type="text"
-            className="px-3 py-2 text-gray-900 border rounded-lg"
           />
           <select
             onChange={(event) => setExtension(event.target.value)}
