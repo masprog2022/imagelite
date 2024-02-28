@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import { Footer } from "./ui/Footer";
 import { Header } from "./ui/Header";
 import { Loading } from "./ui/Loading";
@@ -29,6 +30,14 @@ export const Template: React.FC<TemplateProps> = ({
         {children}
       </div>
       <Footer />
+      <ToastContainer
+        position="top-right"
+        autoClose={8000}
+        hideProgressBar={false}
+        draggable={false}
+        closeOnClick={true}
+        pauseOnHover={true}
+      />
     </>
   );
 };
