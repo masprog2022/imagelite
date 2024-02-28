@@ -2,6 +2,7 @@
 
 import { Button, InputText, Template } from "@/components";
 import { RenderIf } from "@/components/ui/RenderIf";
+import { useImageService } from "@/resources/image/image.service";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useState } from "react";
@@ -16,13 +17,25 @@ const formsScheme: FormProps = { name: "", tags: "", file: "" };
 
 export default function FormPage() {
   const [imagePreview, setImagePreview] = useState<string>();
+  const service = useImageService();
 
   const formmik = useFormik<FormProps>({
     initialValues: formsScheme,
-    onSubmit: (dados: FormProps) => {
-      console.log(dados);
-    },
+    //onSubmit: (dados: FormProps) => {console.log(dados);}
+    onSubmit: handleSubmit,
   });
+
+  async function handleSubmit(data: FormProps) {
+    const formData = new FormData();
+    formData.append("file", data.file);
+    formData.append("name", data.name);
+    formData.append("tags", data.tags);
+
+    await service.save(formData);
+
+    formmik.resetForm();
+    setImagePreview("");
+  }
 
   function onFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files) {
