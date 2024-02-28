@@ -1,5 +1,6 @@
 interface InputTextProps {
   style?: string;
+  id?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
 }
