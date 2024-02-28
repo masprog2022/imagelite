@@ -16,6 +16,7 @@ interface FormProps {
 const formsScheme: FormProps = { name: "", tags: "", file: "" };
 
 export default function FormPage() {
+  const [loading, setLoading] = useState<boolean>(false);
   const [imagePreview, setImagePreview] = useState<string>();
   const service = useImageService();
 
@@ -26,6 +27,7 @@ export default function FormPage() {
   });
 
   async function handleSubmit(data: FormProps) {
+    setLoading(true);
     const formData = new FormData();
     formData.append("file", data.file);
     formData.append("name", data.name);
@@ -35,6 +37,7 @@ export default function FormPage() {
 
     formmik.resetForm();
     setImagePreview("");
+    setLoading(false);
   }
 
   function onFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
@@ -47,7 +50,7 @@ export default function FormPage() {
   }
 
   return (
-    <Template>
+    <Template loading={loading}>
       <section className="flex flex-col items-center justify-center my-5">
         <h5 className="mt-3 mb-10 text-3xl font-extrabold tracking-tight text-gray-900">
           New Image
@@ -60,6 +63,7 @@ export default function FormPage() {
             <InputText
               id="name"
               onChange={formmik.handleChange}
+              value={formmik.values.name}
               placeholder="type the image's name"
             />
           </div>
@@ -70,6 +74,7 @@ export default function FormPage() {
             <InputText
               id="tags"
               onChange={formmik.handleChange}
+              value={formmik.values.tags}
               placeholder="type the tags comma separated"
             />
           </div>
