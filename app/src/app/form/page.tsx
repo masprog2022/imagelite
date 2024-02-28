@@ -6,14 +6,7 @@ import { useImageService } from "@/resources/image/image.service";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useState } from "react";
-
-interface FormProps {
-  name: string;
-  tags: string;
-  file: any;
-}
-
-const formsScheme: FormProps = { name: "", tags: "", file: "" };
+import { FormProps, formValidation, formsScheme } from "./formSchema";
 
 export default function FormPage() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -25,6 +18,7 @@ export default function FormPage() {
     initialValues: formsScheme,
     //onSubmit: (dados: FormProps) => {console.log(dados);}
     onSubmit: handleSubmit,
+    validationSchema: formValidation,
   });
 
   async function handleSubmit(data: FormProps) {
@@ -59,7 +53,7 @@ export default function FormPage() {
           New Image
         </h5>
         <form onSubmit={formmik.handleSubmit}>
-          <div className="grid-cols-1">
+          <div className="grid grid-cols-1">
             <label className="block text-sm font-medium leading-6 text-gray-700">
               Name: *
             </label>
@@ -69,8 +63,9 @@ export default function FormPage() {
               value={formmik.values.name}
               placeholder="type the image's name"
             />
+            <span className="text-red-500">{formmik.errors.name}</span>
           </div>
-          <div className="grid-cols-1 mt-5">
+          <div className="grid grid-cols-1 mt-5">
             <label className="block text-sm font-medium leading-6 text-gray-700">
               Tags: *
             </label>
@@ -80,11 +75,13 @@ export default function FormPage() {
               value={formmik.values.tags}
               placeholder="type the tags comma separated"
             />
+            <span className="text-red-500">{formmik.errors.tags}</span>
           </div>
           <div className="grid-cols-1 mt-5">
             <label className="block text-sm font-medium leading-6 text-gray-700">
               Image: *
             </label>
+            <span className="text-red-500">{formmik.errors.file}</span>
             <div className="flex justify-center px-6 py-10 mt-2 border border-dashed rounded-lg-gray-900/25">
               <div className="text-center">
                 <RenderIf condition={!imagePreview}>
