@@ -1,6 +1,12 @@
 "use client";
 
-import { Button, InputText, Template, useNotification } from "@/components";
+import {
+  Button,
+  FieldError,
+  InputText,
+  Template,
+  useNotification,
+} from "@/components";
 import { RenderIf } from "@/components/ui/RenderIf";
 import { useImageService } from "@/resources/image/image.service";
 import { useFormik } from "formik";
@@ -63,7 +69,7 @@ export default function FormPage() {
               value={formmik.values.name}
               placeholder="type the image's name"
             />
-            <span className="text-red-500">{formmik.errors.name}</span>
+            <FieldError error={formmik.errors.name} />
           </div>
           <div className="grid grid-cols-1 mt-5">
             <label className="block text-sm font-medium leading-6 text-gray-700">
@@ -75,13 +81,13 @@ export default function FormPage() {
               value={formmik.values.tags}
               placeholder="type the tags comma separated"
             />
-            <span className="text-red-500">{formmik.errors.tags}</span>
+            <FieldError error={formmik.errors.tags} />
           </div>
           <div className="grid-cols-1 mt-5">
             <label className="block text-sm font-medium leading-6 text-gray-700">
               Image: *
             </label>
-            <span className="text-red-500">{formmik.errors.file}</span>
+            <FieldError error={formmik.errors.file} />
             <div className="flex justify-center px-6 py-10 mt-2 border border-dashed rounded-lg-gray-900/25">
               <div className="text-center">
                 <RenderIf condition={!imagePreview}>
