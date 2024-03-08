@@ -1,7 +1,16 @@
 "use client";
 
-import { Button, FieldError, InputText, Template } from "@/components";
+import {
+  Button,
+  FieldError,
+  InputText,
+  Template,
+  useNotification,
+} from "@/components";
+import { useAuth } from "@/resources";
+import { AccessToken, Credentials } from "@/resources/user/user.resources";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { RenderIf } from "../../components/ui/RenderIf";
 import { LoginFormProps, formsScheme, validationScheme } from "./formScheme";
@@ -9,6 +18,10 @@ import { LoginFormProps, formsScheme, validationScheme } from "./formScheme";
 export default function Login() {
   const [loading, setLoading] = useState<boolean>(false);
   const [newUserState, setNewUserState] = useState<boolean>(false);
+
+  const auth = useAuth();
+  const notification = useNotification();
+  const router = useRouter();
 
   const { values, handleChange, handleSubmit, errors } =
     useFormik<LoginFormProps>({
@@ -18,7 +31,19 @@ export default function Login() {
     });
 
   async function onSubmit(values: LoginFormProps) {
-    console.log(values);
+    if (!newUserState) {
+      const credentials: Credentials = {
+        email: values.email,
+        password: values.password,
+      };
+      try {
+        const accessToken: AccessToken = await auth.authenticate(credentials);
+        router.push("/gallery")
+      } catch (error: any) {
+        const message = error?.message;
+        notification.notify(message, "error");
+      }
+    }
   }
 
   return (
