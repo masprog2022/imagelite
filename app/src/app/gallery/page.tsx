@@ -6,9 +6,8 @@ import {
   Template,
   useNotification,
 } from "@/components";
-import { Footer } from "@/components/ui/Footer";
+import { useImageService } from "@/resources";
 import { Image } from "@/resources/image/image.resource";
-import { useImageService } from "@/resources/image/image.service";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -85,7 +84,6 @@ export default function GalleryPage() {
           {renderImageCards()}
         </section>
       </Template>
-      
     </>
   );
 }
