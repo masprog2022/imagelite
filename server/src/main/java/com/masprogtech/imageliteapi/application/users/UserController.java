@@ -28,8 +28,8 @@ public class UserController {
         userService.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }catch (DuplicatedTupleException e){
-            Map<String, String> jsonRseult = Map.of("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(jsonRseult);
+            Map<String, String> jsonResult = Map.of("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(jsonResult);
         }
 
         }
