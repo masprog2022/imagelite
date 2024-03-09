@@ -8,7 +8,11 @@ import {
   useNotification,
 } from "@/components";
 import { useAuth } from "@/resources";
-import { AccessToken, Credentials } from "@/resources/user/user.resources";
+import {
+  AccessToken,
+  Credentials,
+  User,
+} from "@/resources/user/user.resources";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,7 +27,7 @@ export default function Login() {
   const notification = useNotification();
   const router = useRouter();
 
-  const { values, handleChange, handleSubmit, errors } =
+  const { values, handleChange, handleSubmit, errors, resetForm } =
     useFormik<LoginFormProps>({
       initialValues: formsScheme,
       validationSchema: validationScheme,
@@ -38,7 +42,24 @@ export default function Login() {
       };
       try {
         const accessToken: AccessToken = await auth.authenticate(credentials);
-        router.push("/gallery")
+        auth.initSession(accessToken);
+        router.push("/gallery");
+      } catch (error: any) {
+        const message = error?.message;
+        notification.notify(message, "error");
+      }
+    } else {
+      const user: User = {
+        email: values.email,
+        name: values.name,
+        password: values.password,
+      };
+
+      try {
+        await auth.save(user);
+        notification.notify("Success on saving user!", "success");
+        resetForm();
+        setNewUserState(false);
       } catch (error: any) {
         const message = error?.message;
         notification.notify(message, "error");
