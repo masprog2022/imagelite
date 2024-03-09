@@ -1,5 +1,6 @@
 "use client";
 import {
+  AuthenticatedPage,
   Button,
   ImageCard,
   InputText,
@@ -49,7 +50,7 @@ export default function GalleryPage() {
   }
 
   return (
-    <>
+    <AuthenticatedPage>
       <Template loading={loading}>
         <section className="flex flex-col items-center justify-center my-5">
           <div className="flex space-x-4">
@@ -84,6 +85,6 @@ export default function GalleryPage() {
           {renderImageCards()}
         </section>
       </Template>
-    </>
+    </AuthenticatedPage>
   );
 }
