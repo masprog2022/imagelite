@@ -44,8 +44,6 @@ class AuthService {
   initSession(token: AccessToken) {
     if (token.accessToken) {
       const decodedToken: any = jwt(token.accessToken);
-      console.log("DECODED TOKEN: ", decodedToken);
-
       const userSessionToken: UserSessionToken = {
         accessToken: token.accessToken,
         email: decodedToken.sub,
@@ -64,6 +62,9 @@ class AuthService {
   }
 
   getUserSession(): UserSessionToken | null {
+    if (typeof localStorage == "undefined") {
+      return null;
+    }
     const authString = localStorage.getItem(AuthService.AUTH_PARAM);
     if (!authString) {
       return null;
@@ -78,9 +79,6 @@ class AuthService {
     if (!userSession) {
       return false;
     }
-
-    console.log(userSession);
-
     const expiration: number | undefined = userSession.expiration;
 
     if (expiration) {
