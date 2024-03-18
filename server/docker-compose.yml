@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:15.3-alpine
+    container_name: db-image
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: admin
+      POSTGRES_DB: imagelite
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - img
+
+  sbootapp:
+    build:
+      dockerfile: Dockerfile
+      context: ./imageliteapi
+    container_name: imageliteapi
+    restart: on-failure
+    depends_on:
+      - db
+    ports:
+      - '8081:8081'
+    networks:
+      - img
+    environment:
+      - "POSTGRES_HOST=db"
+
+networks:
+  img:
+    driver: bridge
