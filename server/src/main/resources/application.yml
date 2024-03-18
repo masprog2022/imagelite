@@ -1,10 +1,8 @@
-server:
-  port: 8081
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/imagelite
-    username: postgres
-    password: admin
+    username: admin
+    password: password
   jpa:
     database: POSTGRESQL
     hibernate:
@@ -16,13 +14,22 @@ spring:
       max-request-size: 20MB
 
 
-
-# Local
-# password: admin
-#  username: postgres
-
-# docker
-# username: admin
-# password: password
-
-
+# Production
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:5432/imagelite
+    username: admin
+    password: password
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+        ddl-auto: update
+    show-sql: true
+  servlet:
+    multipart:
+        max-file-size: 20MB
+        max-request-size: 20MB
